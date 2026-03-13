@@ -15,7 +15,7 @@ function Header({ cartCount = 0, onOpenCart, onCheckout }) {
               <span className="dot"></span>
               <span className="dot"></span>
             </span>
-            <span className="logo-text">Mianwali</span>
+            <span className="logo-text">Mian</span>
             <span className="logo-subtext">Eats</span>
           </Link>
           <nav className={`nav ${mobileMenuOpen ? 'nav-open' : ''}`}>

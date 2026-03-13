@@ -28,7 +28,7 @@ function Footer() {
               <a href="#faq">FAQs</a>
             </div>
             <div className="footer-col">
-              <h4>Call Us</h4>
+              <h4>Call US</h4>
               <a href="tel:111366466" className="phone">111 366 466</a>
               <p className="hours">Open 24/7</p>
             </div>
