@@ -1,0 +1,123 @@
+export const ramadanDeals = [
+  {
+    id: 1,
+    name: "Ramadan Family Deal",
+    description: "2 Large Pizzas + 2 Garlic Bread + 1.5L Drink",
+    price: 2499,
+    originalPrice: 2999,
+    image: "/images/ramadan-family-deal.png",
+    tag: "BEST VALUE",
+    pizzaCount: 2,
+    hasDrink: true,
+  },
+  {
+    id: 2,
+    name: "Iftar Special",
+    description: "1 Large Pizza + Chicken Wings + Garlic Bread + Drink",
+    price: 1899,
+    originalPrice: 2299,
+    image: "/images/iftar-special.png",
+    tag: "POPULAR",
+    pizzaCount: 1,
+    hasDrink: true,
+  },
+  {
+    id: 3,
+    name: "Suhoor Combo",
+    description: "2 Medium Pizzas + 1 Garlic Bread",
+    price: 1599,
+    originalPrice: 1899,
+    image: "/images/suhoor-combo.png",
+    tag: "LIMITED",
+    pizzaCount: 2,
+    hasDrink: false,
+  },
+];
+
+export const drinks = [
+  { id: 1, name: "Pepsi 1.5L" },
+  { id: 2, name: "7Up 1.5L" },
+  { id: 3, name: "Mirinda 1.5L" },
+  { id: 4, name: "Sprite 1.5L" },
+  { id: 5, name: "Water 1.5L" },
+];
+
+export const pizzas = [
+  {
+    id: 1,
+    name: "Chicken Tikka",
+    description: "Tender chicken tikka with onions, green peppers & our signature sauce",
+    price: 799,
+    sizePrices: { medium: 799, large: 999, xl: 1199 },
+    sizes: ["Medium", "Large", "XL"],
+    image: "/images/pizza-chicken-tikka.png",
+    category: "signature",
+  },
+  {
+    id: 2,
+    name: "Pepperoni Passion",
+    description: "Loaded with pepperoni and mozzarella cheese",
+    price: 849,
+    sizePrices: { medium: 849, large: 1049, xl: 1249 },
+    sizes: ["Medium", "Large", "XL"],
+    image: "/images/pizza-pepperoni.png",
+    category: "signature",
+  },
+  {
+    id: 3,
+    name: "Fiery Chicken",
+    description: "Spicy chicken with jalapeños and red peppers",
+    price: 849,
+    sizePrices: { medium: 849, large: 1049, xl: 1249 },
+    sizes: ["Medium", "Large", "XL"],
+    image: "/images/pizza-fiery-chicken.png",
+    category: "signature",
+  },
+  {
+    id: 4,
+    name: "Beef Pepperoni",
+    description: "Classic beef pepperoni with extra cheese",
+    price: 899,
+    sizePrices: { medium: 899, large: 1099, xl: 1299 },
+    sizes: ["Medium", "Large", "XL"],
+    image: "/images/pizza-beef-pepperoni.png",
+    category: "signature",
+  },
+  {
+    id: 5,
+    name: "Margherita",
+    description: "Fresh tomatoes, basil and mozzarella",
+    price: 649,
+    sizePrices: { medium: 649, large: 849, xl: 1049 },
+    sizes: ["Medium", "Large", "XL"],
+    image: "/images/pizza-margherita.png",
+    category: "classic",
+  },
+  {
+    id: 6,
+    name: "Veggie Supreme",
+    description: "Onions, green peppers, mushrooms, olives & tomatoes",
+    price: 749,
+    sizePrices: { medium: 749, large: 949, xl: 1149 },
+    sizes: ["Medium", "Large", "XL"],
+    image: "/images/pizza-veggie-supreme.png",
+    category: "vegetarian",
+  },
+];
+
+export const menuDrinks = [
+  { id: 7, name: "Oreo Shake", price: 349, image: "/images/drink-oreo-shake.png" },
+  { id: 8, name: "Coffee Shake", price: 299, image: "/images/drink-coffee-shake.png" },
+  { id: 9, name: "Strawberry Shake", price: 299, image: "/images/drink-strawberry-shake.png" },
+  { id: 10, name: "Coke", price: 149, image: "/images/drink-coke.png" },
+  { id: 11, name: "Sprite", price: 149, image: "/images/drink-sprite.png" },
+];
+
+export const sides = [
+  { id: 1, name: "Garlic Bread", price: 299, image: "/images/side-garlic-bread.png" },
+  { id: 2, name: "Chicken Wings (6 pcs)", price: 449, image: "/images/side-chicken-wings.png" },
+  { id: 3, name: "Loaded Wedges", price: 349, image: "/images/side-loaded-wedges.png" },
+  { id: 4, name: "Pasta Alfredo", price: 399, image: "/images/side-pasta-alfredo.png" },
+  { id: 5, name: "Chocolate Lava Cake", price: 299, image: "/images/side-chocolate-lava.png" },
+  { id: 6, name: "Coleslaw", price: 149, image: "/images/side-coleslaw.png" },
+];

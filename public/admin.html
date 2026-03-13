@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mianwali Eats — Orders Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: #0f172a;
+      color: #e2e8f0;
+      min-height: 100vh;
+    }
+
+    /* --- Login --- */
+    .login-wrapper {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+    .login-box {
+      width: 100%; max-width: 380px;
+      background: #1e293b;
+      border-radius: 16px;
+      padding: 2.5rem 2rem;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+      text-align: center;
+    }
+    .login-box h1 { font-size: 1.4rem; margin-bottom: 0.5rem; }
+    .login-box p { color: #94a3b8; font-size: 0.85rem; margin-bottom: 1.5rem; }
+    .login-box input {
+      width: 100%; padding: 0.75rem 1rem;
+      border: 2px solid #334155; border-radius: 10px;
+      background: #0f172a; color: #e2e8f0;
+      font-size: 1rem; outline: none;
+      margin-bottom: 1rem;
+      text-align: center;
+      letter-spacing: 0.1em;
+    }
+    .login-box input:focus { border-color: #e31837; }
+    .login-error { color: #f87171; font-size: 0.85rem; margin-bottom: 0.75rem; display: none; }
+
+    /* --- Shared button --- */
+    .btn {
+      width: 100%; padding: 0.8rem;
+      background: linear-gradient(135deg, #e31837, #b9142c);
+      color: #fff; border: none; border-radius: 10px;
+      font-weight: 700; font-size: 1rem; cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(227,24,55,0.3); }
+    .btn-sm { width: auto; padding: 0.5rem 1rem; font-size: 0.85rem; }
+    .btn-outline {
+      background: transparent; border: 2px solid #e31837; color: #e31837;
+    }
+    .btn-outline:hover { background: rgba(227,24,55,0.1); box-shadow: none; transform: none; }
+
+    /* --- Dashboard --- */
+    .dashboard { display: none; }
+    .dash-header {
+      background: #1e293b;
+      padding: 1rem 1.5rem;
+      display: flex; align-items: center; justify-content: space-between;
+      border-bottom: 1px solid #334155;
+      position: sticky; top: 0; z-index: 10;
+    }
+    .dash-header h1 { font-size: 1.2rem; }
+    .dash-header .badge {
+      background: #e31837; color: #fff; font-size: 0.75rem;
+      font-weight: 700; padding: 0.2rem 0.6rem; border-radius: 20px;
+      margin-left: 0.5rem;
+    }
+    .dash-body { padding: 1.5rem; max-width: 800px; margin: 0 auto; }
+    .no-orders {
+      text-align: center; padding: 4rem 1rem; color: #64748b;
+    }
+    .no-orders span { font-size: 3rem; display: block; margin-bottom: 1rem; }
+
+    /* --- Order card --- */
+    .order-card {
+      background: #1e293b;
+      border-radius: 12px;
+      margin-bottom: 1rem;
+      border: 1px solid #334155;
+      overflow: hidden;
+      transition: border-color 0.2s;
+    }
+    .order-card.new { border-color: #e31837; }
+    .order-card-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1rem 1.25rem;
+      cursor: pointer;
+      gap: 0.75rem;
+    }
+    .order-card-header:hover { background: #253044; }
+    .order-id { font-weight: 700; font-size: 0.9rem; color: #f8fafc; }
+    .order-time { font-size: 0.8rem; color: #94a3b8; }
+    .order-total { font-weight: 700; color: #e31837; white-space: nowrap; }
+    .order-new-tag {
+      font-size: 0.65rem; font-weight: 700; background: #e31837;
+      color: #fff; padding: 0.15rem 0.5rem; border-radius: 4px;
+    }
+    .order-detail {
+      display: none;
+      padding: 0 1.25rem 1.25rem;
+      border-top: 1px solid #334155;
+    }
+    .order-detail.open { display: block; }
+    .order-detail table { width: 100%; border-collapse: collapse; }
+    .order-detail th {
+      text-align: left; font-size: 0.75rem; color: #94a3b8;
+      text-transform: uppercase; padding: 0.5rem 0; letter-spacing: 0.05em;
+    }
+    .order-detail td {
+      padding: 0.4rem 0; font-size: 0.9rem; color: #cbd5e1;
+    }
+    .order-detail td:last-child { text-align: right; }
+    .order-detail .info-row {
+      display: flex; gap: 0.5rem; margin-bottom: 0.4rem; font-size: 0.9rem;
+    }
+    .info-label { color: #94a3b8; min-width: 100px; }
+    .info-value { color: #f1f5f9; }
+    .order-actions { display: flex; gap: 0.5rem; margin-top: 1rem; }
+  </style>
+</head>
+<body>
+
+  <!-- Login Screen -->
+  <div class="login-wrapper" id="loginScreen">
+    <div class="login-box">
+      <h1>🍕 Orders Dashboard</h1>
+      <p>Enter your admin password to view orders</p>
+      <p class="login-error" id="loginError">Incorrect password</p>
+      <input type="password" id="passInput" placeholder="••••••••" autofocus />
+      <button class="btn" onclick="tryLogin()">Login</button>
+    </div>
+  </div>
+
+  <!-- Dashboard -->
+  <div class="dashboard" id="dashboard">
+    <div class="dash-header">
+      <div style="display:flex;align-items:center;">
+        <h1>🍕 Orders</h1>
+        <span class="badge" id="orderCount">0</span>
+      </div>
+      <div style="display:flex;gap:0.5rem;">
+        <button class="btn btn-sm btn-outline" onclick="logout()">Logout</button>
+      </div>
+    </div>
+    <div class="dash-body" id="ordersList"></div>
+  </div>
+
+  <!-- Firebase SDKs via CDN -->
+  <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-database-compat.js"></script>
+  
+  <script>
+    const ADMIN_PASS = 'mianwali123';
+
+    // TODO: Replace with the EXACT SAME Firebase configuration you put in src/firebase.js
+    const firebaseConfig = {
+      apiKey: "AIzaSyA5mxgj_9Su47KS_RyEVVavCJF4EdZ9E48",
+      authDomain: "webapp-96b23.firebaseapp.com",
+      databaseURL: "https://webapp-96b23-default-rtdb.firebaseio.com",
+      projectId: "webapp-96b23",
+      storageBucket: "webapp-96b23.firebasestorage.app",
+      messagingSenderId: "992831015219",
+      appId: "1:992831015219:web:1ff963884930628f259646"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
+    let allOrders = [];
+
+    // --- Auth ---
+    function tryLogin() {
+      const pass = document.getElementById('passInput').value;
+      if (pass === ADMIN_PASS) {
+        document.getElementById('loginScreen').style.display = 'none';
+        document.getElementById('dashboard').style.display = 'block';
+        startListening();
+      } else {
+        document.getElementById('loginError').style.display = 'block';
+        document.getElementById('passInput').value = '';
+        document.getElementById('passInput').focus();
+      }
+    }
+    document.getElementById('passInput').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') tryLogin();
+    });
+
+    function logout() {
+      db.ref('orders').off(); // stop listening
+      document.getElementById('dashboard').style.display = 'none';
+      document.getElementById('loginScreen').style.display = 'flex';
+      document.getElementById('passInput').value = '';
+    }
+
+    // --- Orders (Firebase RTDB) ---
+    function startListening() {
+      db.ref('orders').on('value', (snapshot) => {
+        allOrders = [];
+        snapshot.forEach(childSnapshot => {
+          allOrders.push({
+            id: childSnapshot.key,
+            ...childSnapshot.val()
+          });
+        });
+        // Sort newest first
+        allOrders.sort((a, b) => b.timestamp - a.timestamp);
+        renderOrders();
+      }, (error) => {
+        console.error("Error fetching orders:", error);
+        alert("Failed to fetch orders. Did you set up Firebase correctly?");
+      });
+    }
+
+    async function markRead(orderId) {
+      try {
+        await db.ref('orders/' + orderId).update({ isNew: false });
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    async function deleteOrder(orderId) {
+      if (!confirm('Delete this order?')) return;
+      try {
+        await db.ref('orders/' + orderId).remove();
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    function toggleDetail(id) {
+      const el = document.getElementById('detail-' + id);
+      el.classList.toggle('open');
+    }
+
+    function renderOrders() {
+      const orders = allOrders;
+      const container = document.getElementById('ordersList');
+      document.getElementById('orderCount').textContent = orders.length;
+
+      if (orders.length === 0) {
+        container.innerHTML = '<div class="no-orders"><span>📭</span>No orders yet</div>';
+        return;
+      }
+
+      container.innerHTML = orders.map(order => {
+        const d = new Date(order.timestamp);
+        const time = d.toLocaleString('en-PK', { dateStyle: 'medium', timeStyle: 'short' });
+        const isNew = order.isNew ? 'new' : '';
+        const items = (order.items || []).map(i =>
+          `<tr><td>${i.name}</td><td style="text-align:right">×${i.qty} — Rs. ${i.subtotal.toLocaleString()}</td></tr>`
+        ).join('');
+
+        return `
+          <div class="order-card ${isNew}">
+            <div class="order-card-header" onclick="toggleDetail('${order.id}')">
+              <span class="order-id">#${order.id.slice(-8).toUpperCase()}</span>
+              <span class="order-time">${time}</span>
+              ${order.isNew ? '<span class="order-new-tag">NEW</span>' : ''}
+              <span class="order-total">Rs. ${order.total.toLocaleString()}</span>
+            </div>
+            <div class="order-detail" id="detail-${order.id}">
+              <div style="padding-top:1rem;">
+                <div class="info-row"><span class="info-label">💳 Payment</span><span class="info-value" style="font-weight: 600; color: #e31837;">${order.paymentMethod || 'N/A'}</span></div>
+                <div class="info-row"><span class="info-label">👤 Name</span><span class="info-value">${order.customer.name || 'N/A'}</span></div>
+                <div class="info-row"><span class="info-label">📞 Contact</span><span class="info-value">${order.customer.contact}</span></div>
+                <div class="info-row"><span class="info-label">📍 Area</span><span class="info-value">${order.customer.area}</span></div>
+                <div class="info-row"><span class="info-label">🏠 House</span><span class="info-value">${order.customer.house}</span></div>
+                ${order.customer.notes ? `<div class="info-row"><span class="info-label">📝 Notes</span><span class="info-value">${order.customer.notes}</span></div>` : ''}
+              </div>
+              <table style="margin-top:1rem;">
+                <tr><th>Item</th><th style="text-align:right">Details</th></tr>
+                ${items}
+              </table>
+              <div style="margin-top: 1rem; border-top: 1px dashed #334155; padding-top: 0.5rem; text-align: right;">
+                <div style="font-size: 0.85rem; color: #94a3b8; margin-bottom: 0.2rem;">Subtotal: Rs. ${(order.subtotal || order.total).toLocaleString()}</div>
+                ${order.taxAmount ? `<div style="font-size: 0.85rem; color: #94a3b8; margin-bottom: 0.5rem;">${order.taxName}: Rs. ${order.taxAmount.toLocaleString()}</div>` : ''}
+                <div style="font-size: 1rem; font-weight: 700; color: #e31837;">Final Total: Rs. ${order.total.toLocaleString()}</div>
+              </div>
+              <div class="order-actions">
+                ${order.isNew ? `<button class="btn btn-sm" onclick="markRead('${order.id}')">Mark as Read</button>` : ''}
+                <button class="btn btn-sm btn-outline" onclick="deleteOrder('${order.id}')">Delete</button>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+  </script>
+</body>
+</html>

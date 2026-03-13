@@ -1,0 +1,22 @@
+.deals-banner {
+  width: 100%;
+  overflow: hidden;
+  padding: 20px;
+}
+
+.slider {
+  display: flex;
+  transition: transform 0.5s ease-in-out; /* smooth sliding */
+}
+
+.deal-image {
+  width: calc(100% / 3); /* 3 images visible at a time */
+  height: 180px;
+  object-fit: cover;
+  border-radius: 10px;
+  transition: transform 0.3s;
+}
+
+.deal-image:hover {
+  transform: scale(1.05);
+}

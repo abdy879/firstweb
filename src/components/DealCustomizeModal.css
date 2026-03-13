@@ -1,0 +1,223 @@
+.deal-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 300;
+  animation: dealFadeIn 0.2s ease;
+}
+
+@keyframes dealFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.deal-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  max-width: 480px;
+  max-height: 90vh;
+  background: var(--white);
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+  z-index: 301;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  animation: dealSlideUp 0.3s ease;
+}
+
+@keyframes dealSlideUp {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -45%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+}
+
+.deal-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--gray-200);
+  flex-shrink: 0;
+}
+
+.deal-modal-header h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.deal-modal-close {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  line-height: 1;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--gray-600);
+  border-radius: 8px;
+  transition: background 0.2s, color 0.2s;
+}
+
+.deal-modal-close:hover {
+  background: var(--gray-100);
+  color: var(--black);
+}
+
+.deal-modal-body {
+  padding: 1.25rem;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.deal-modal-name {
+  font-weight: 600;
+  font-size: 1rem;
+  margin: 0 0 1.25rem 0;
+  color: var(--black);
+}
+
+.deal-modal-section {
+  margin-bottom: 1.25rem;
+}
+
+.deal-modal-section:last-child {
+  margin-bottom: 0;
+}
+
+.deal-modal-label {
+  display: block;
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+  color: var(--gray-800);
+}
+
+.deal-modal-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.deal-option {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border: 2px solid var(--gray-200);
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.deal-option-pizza {
+  flex-direction: column;
+  min-width: 90px;
+  padding: 0.5rem;
+}
+
+.deal-option-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  margin-top: 0.25rem;
+}
+
+.deal-option-pizza .deal-option-row span:last-child {
+  font-size: 0.75rem;
+  text-align: center;
+  line-height: 1.2;
+}
+
+.deal-option-image {
+  width: 64px;
+  height: 64px;
+  border-radius: 8px;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: var(--gray-100);
+}
+
+.deal-option-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.deal-option:hover {
+  border-color: var(--dominos-red);
+  background: rgba(227, 24, 55, 0.05);
+}
+
+.deal-option.selected {
+  border-color: var(--dominos-red);
+  background: rgba(227, 24, 55, 0.08);
+}
+
+.deal-option input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.deal-option-circle {
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--gray-400);
+  border-radius: 50%;
+  flex-shrink: 0;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.deal-option.selected .deal-option-circle {
+  border-color: var(--dominos-red);
+  background: var(--dominos-red);
+  box-shadow: inset 0 0 0 3px var(--white);
+}
+
+.deal-modal-footer {
+  padding: 1rem 1.25rem;
+  border-top: 1px solid var(--gray-200);
+  background: var(--gray-100);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-shrink: 0;
+}
+
+.deal-modal-price {
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: var(--dominos-red);
+}
+
+.deal-modal-add-btn {
+  padding: 0.75rem 1.5rem;
+  background: var(--dominos-red);
+  color: var(--white);
+  border: none;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.deal-modal-add-btn:hover {
+  background: var(--dominos-red-dark);
+}
