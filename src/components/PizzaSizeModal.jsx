@@ -4,8 +4,12 @@ import './PizzaSizeModal.css';
 function PizzaSizeModal({ pizza, onAdd, onClose }) {
   const [selectedSize, setSelectedSize] = useState('medium');
 
+  if (!pizza || !pizza.sizePrices || !pizza.sizes) {
+    return null;
+  }
+
   const handleAdd = () => {
-    const price = pizza.sizePrices[selectedSize];
+    const price = pizza.sizePrices[selectedSize] || pizza.price;
     onAdd({
       ...pizza,
       size: selectedSize,
@@ -30,7 +34,7 @@ function PizzaSizeModal({ pizza, onAdd, onClose }) {
           <div className="size-options">
             {pizza.sizes.map((size) => {
               const key = size.toLowerCase();
-              const price = pizza.sizePrices[key];
+              const price = pizza.sizePrices[key] || 0;
               const isSelected = selectedSize === key;
               return (
                 <label
@@ -54,7 +58,7 @@ function PizzaSizeModal({ pizza, onAdd, onClose }) {
         </div>
         <div className="size-modal-footer">
           <button className="size-modal-add-btn" onClick={handleAdd}>
-            Add to Cart — Rs. {pizza.sizePrices[selectedSize].toLocaleString()}
+            Add to Cart — Rs. {(pizza.sizePrices[selectedSize] || 0).toLocaleString()}
           </button>
         </div>
       </div>

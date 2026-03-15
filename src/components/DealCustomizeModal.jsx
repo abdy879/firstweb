@@ -111,7 +111,7 @@ function DealCustomizeModal({ deal, onAdd, onClose }) {
           )}
         </div>
         <div className="deal-modal-footer">
-          <span className="deal-modal-price">Rs. {deal.price.toLocaleString()}</span>
+          <span className="deal-modal-price">Rs. {(deal.price || 0).toLocaleString()}</span>
           <button className="deal-modal-add-btn" onClick={handleAdd}>
             Add to Cart
           </button>

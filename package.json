@@ -10,7 +10,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "firebase": "^12.10.0",
+    "bcrypt": "^6.0.0",
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
+    "mssql": "^12.2.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-router-dom": "^7.13.1"
@@ -25,5 +28,18 @@
     "eslint-plugin-react-refresh": "^0.4.24",
     "globals": "^16.5.0",
     "vite": "^7.3.1"
-  }
+  },
+  "description": "A React clone of the Domino's Pizza Pakistan website (dominos.com.pk), inspired by their menu and Ramadan deals page.",
+  "main": "eslint.config.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abdy879/firstweb.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/abdy879/firstweb/issues"
+  },
+  "homepage": "https://github.com/abdy879/firstweb#readme"
 }

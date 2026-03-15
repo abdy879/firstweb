@@ -1,20 +1,56 @@
-import { useState } from 'react';
-import { pizzas, sides, menuDrinks } from '../data/menuData';
+import { useState, useEffect } from 'react';
 import PizzaSizeModal from './PizzaSizeModal';
 import './MenuSection.css';
 
 function MenuSection({ onAddToCart }) {
   const [activeCategory, setActiveCategory] = useState('pizzas');
   const [pizzaModal, setPizzaModal] = useState(null);
+  const [pizzas, setPizzas] = useState([]);
+  const [sides, setSides] = useState([]);
+  const [menuDrinks, setMenuDrinks] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchMenuData = async () => {
+      try {
+        setLoading(true);
+        const [pizzasRes, sidesRes, drinksRes] = await Promise.all([
+          fetch('http://localhost:3000/api/pizzas'),
+          fetch('http://localhost:3000/api/sides'),
+          fetch('http://localhost:3000/api/drinks')
+        ]);
+
+        if (!pizzasRes.ok || !sidesRes.ok || !drinksRes.ok) {
+          throw new Error('Failed to fetch menu data');
+        }
+
+        const [pizzasData, sidesData, drinksData] = await Promise.all([
+          pizzasRes.json(),
+          sidesRes.json(),
+          drinksRes.json()
+        ]);
+
+        setPizzas(pizzasData);
+        setSides(sidesData);
+        setMenuDrinks(drinksData);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchMenuData();
+  }, []);
+
+  if (loading) return <div className="loading">Loading menu...</div>;
+  if (error) return <div className="error">Error: {error}</div>;
 
   return (
     <section id="menu" className="menu-section">
       <div className="section-container">
-        <div className="section-header">
-          <span className="section-tag">OUR MENU</span>
-          <h2>Choose Your Favorite</h2>
-          <p>Fresh ingredients, delicious taste, delivered hot</p>
-        </div>
+        
         <div className="menu-tabs">
           <button
             className={`tab ${activeCategory === 'pizzas' ? 'active' : ''}`}

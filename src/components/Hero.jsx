@@ -10,7 +10,7 @@ function Hero() {
           <h1>Hot & Fresh Fast Food Delivered to Your Door</h1>
           <p>Order online and get your favorite Food in 30 minutes or less. Ramadan special deals available now!</p>
           <div className="hero-buttons">
-            <Link to="/MenuSection" className="btn btn-primary">Order Now</Link>
+            <a href="#menu" className="btn btn-primary">Order Now</a>
             
           </div>
         </div>

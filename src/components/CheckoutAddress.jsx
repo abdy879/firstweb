@@ -7,6 +7,7 @@ function CheckoutAddress({ cart, onBack, onPlaceOrder }) {
     house: '',
     notes: '',
     contact: '',
+    name: '',
   });
 
   const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);

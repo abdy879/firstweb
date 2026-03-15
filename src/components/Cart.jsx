@@ -1,6 +1,6 @@
 import './Cart.css';
 
-function Cart({ cart, isOpen, onClose, onRemove, onAdd, onDecrement, onCheckout }) {
+function Cart({ cart, isOpen, onClose, onRemove, onAdd, onDecrement, onCheckout, onLogout, user }) {
   const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   return (
@@ -75,6 +75,17 @@ function Cart({ cart, isOpen, onClose, onRemove, onAdd, onDecrement, onCheckout 
               <span>Rs. {total.toLocaleString()}</span>
             </div>
             <button className="cart-checkout" onClick={onCheckout}>Complete Order</button>
+            {user && (
+              <button 
+                className="cart-logout-btn" 
+                onClick={() => {
+                  onLogout();
+                  onClose();
+                }}
+              >
+                Sign Out ({user.email || user.phone || 'User'})
+              </button>
+            )}
           </div>
         )}
       </aside>

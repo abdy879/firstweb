@@ -1,7 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';  
 import { useLocation, useNavigate } from 'react-router-dom';
-import { db } from '../firebase';
-import { ref, push, set } from 'firebase/database';
 import './Payment.css';
 
 function Payment({ cart, setCart }) {
@@ -9,7 +7,13 @@ function Payment({ cart, setCart }) {
   const navigate = useNavigate();
   const [selectedMethod, setSelectedMethod] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
-
+  // Scroll to the payment container when the component mounts
+  useEffect(() => {
+    const element = document.querySelector('.payment-page');
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [location]);
   // Address details passed from the checkout address modal
   const address = location.state?.address;
 
@@ -34,44 +38,40 @@ function Payment({ cart, setCart }) {
 
     setIsProcessing(true);
 
-    const orderItems = cart.map((item) => ({
-      name: item.displayName || item.name,
-      size: item.size || null,
-      qty: item.quantity,
-      subtotal: item.price * item.quantity,
-    }));
-
-    const order = {
-      timestamp: Date.now(),
-      isNew: true,
-      paymentMethod: selectedMethod,
-      customer: {
-        name: address.name || 'N/A',
-        contact: address.contact,
-        area: address.area,
-        house: address.house,
-        notes: address.notes || '',
-      },
-      items: orderItems,
-      subtotal,
-      taxName: selectedMethod === 'Credit/Debit Card' ? 'Card Tax (5%)' : 'Standard Tax (15%)',
-      taxAmount,
-      total: finalTotal,
-    };
-
     try {
-      const ordersRef = ref(db, 'orders');
-      const newOrderRef = push(ordersRef);
-      await set(newOrderRef, order);
+      // Send order to our Node.js Backend (SQL Server)
+      const response = await fetch('http://localhost:3000/api/place-order', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          customerName: address.name || 'N/A',
+          customerContact: address.contact,
+          address: `${address.house}, ${address.area}`,
+          items: cart.map(item => ({
+            name: item.displayName || item.name,
+            quantity: item.quantity,
+            price: item.price,
+            size: item.size || null,
+            flavour: item.customizationKey || null // Using customization as flavour
+          })),
+          totalAmount: finalTotal
+        }),
+      });
 
-      alert(`✅ Order placed successfully!\n\nYour Order ID: #${newOrderRef.key.slice(-8).toUpperCase()}\nPayment Method: ${selectedMethod}\nTotal: Rs. ${finalTotal.toLocaleString()}\n\nThank you for ordering from Mianwali Eats!`);
+      if (!response.ok) {
+        throw new Error('Failed to save order to backend');
+      }
+
+      alert(`✅ Order placed successfully!\n\nSaved to SQL Server Database\nPayment Method: ${selectedMethod}\nTotal: Rs. ${finalTotal.toLocaleString()}\n\nThank you for ordering from Mianwali Eats!`);
 
       setCart([]);
       setIsProcessing(false);
-      navigate('/'); // Go back to home after successful order
+      navigate('/');
     } catch (error) {
-      console.error("Error adding document: ", error);
-      alert("Sorry, there was an error processing your payment. Please try again or contact support.");
+      console.error("Error saving to backend: ", error);
+      alert("Sorry, there was an error processing your order in the SQL database. Please try again.");
       setIsProcessing(false);
     }
   };

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Header.css';
 
-function Header({ cartCount = 0, onOpenCart, onCheckout }) {
+function Header({ cartCount = 0, onOpenCart, onCheckout, user, onLogout }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
@@ -15,18 +15,14 @@ function Header({ cartCount = 0, onOpenCart, onCheckout }) {
               <span className="dot"></span>
               <span className="dot"></span>
             </span>
-            <span className="logo-text">Mian</span>
+            <span className="logo-text">Mianwali</span>
             <span className="logo-subtext">Eats</span>
           </Link>
           <nav className={`nav ${mobileMenuOpen ? 'nav-open' : ''}`}>
             <a href='/'>Home</a>
-            <Link to="/MenuSection">Menu</Link>
-
-            <Link to="/RamadanDeals">Special Deals</Link>
+            <a href="/#menu">Menu</a>
+            <a href="/#ramadan">Special Deals</a>
             <Link to="/contact">Contact</Link>
-
-
-
           </nav>
           <div className="header-actions">
             <button
